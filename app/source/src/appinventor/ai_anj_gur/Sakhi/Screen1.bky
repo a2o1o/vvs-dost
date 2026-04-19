@@ -3,10 +3,10 @@
     <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Button" is_generic="false" instance_name="BeginButton" event_name="Click"></mutation>
     <field name="COMPONENT_SELECTOR">BeginButton</field>
     <statement name="DO">
-      <block type="controls_openAnotherScreen" id="screen1-open-stage">
+      <block type="controls_openAnotherScreen" id="screen1-open-concern">
         <value name="SCREEN">
-          <block type="helpers_screen_names" id="screen1-stage-name">
-            <field name="SCREEN">StageScreen</field>
+          <block type="helpers_screen_names" id="screen1-concern-name">
+            <field name="SCREEN">ConcernScreen</field>
           </block>
         </value>
       </block>
