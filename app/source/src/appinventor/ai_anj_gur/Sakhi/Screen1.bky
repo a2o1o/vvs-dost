@@ -1,0 +1,29 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="component_event" id="screen1-begin" x="-120" y="10">
+    <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Button" is_generic="false" instance_name="BeginButton" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">BeginButton</field>
+    <statement name="DO">
+      <block type="controls_openAnotherScreen" id="screen1-open-stage">
+        <value name="SCREEN">
+          <block type="helpers_screen_names" id="screen1-stage-name">
+            <field name="SCREEN">StageScreen</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+  <block type="component_event" id="screen1-about" x="-120" y="110">
+    <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Button" is_generic="false" instance_name="AboutButton" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">AboutButton</field>
+    <statement name="DO">
+      <block type="controls_openAnotherScreen" id="screen1-open-about">
+        <value name="SCREEN">
+          <block type="helpers_screen_names" id="screen1-about-name">
+            <field name="SCREEN">Screen2</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+  <yacodeblocks xmlns="https://appinventor.mit.edu/ns/project/" ya-version="233" language-version="38"></yacodeblocks>
+</xml>

@@ -1,0 +1,47 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="component_event" id="school-choice-scholarships" x="-260" y="-220">
+    <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Button" is_generic="false" instance_name="ScholarshipButton" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">ScholarshipButton</field>
+    <statement name="DO">
+      <block type="component_method" id="school-choice-store-scholarships">
+        <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="TinyDB" method_name="StoreValue" is_generic="false" instance_name="TinyDB1"></mutation>
+        <field name="COMPONENT_SELECTOR">TinyDB1</field>
+        <value name="ARG0"><block type="text" id="school-choice-topic-key-1"><field name="TEXT">topic</field></block></value>
+        <value name="ARG1"><block type="text" id="school-choice-topic-value-1"><field name="TEXT">scholarships</field></block></value>
+        <next><block type="controls_openAnotherScreen" id="school-choice-open-concern-1"><value name="SCREEN"><block type="helpers_screen_names" id="school-choice-concern-name-1"><field name="SCREEN">ConcernScreen</field></block></value></block></next>
+      </block>
+    </statement>
+  </block>
+  <block type="component_event" id="school-choice-pathways" x="-260" y="-20">
+    <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Button" is_generic="false" instance_name="PathwaysButton" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">PathwaysButton</field>
+    <statement name="DO">
+      <block type="component_method" id="school-choice-store-pathways">
+        <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="TinyDB" method_name="StoreValue" is_generic="false" instance_name="TinyDB1"></mutation>
+        <field name="COMPONENT_SELECTOR">TinyDB1</field>
+        <value name="ARG0"><block type="text" id="school-choice-topic-key-2"><field name="TEXT">topic</field></block></value>
+        <value name="ARG1"><block type="text" id="school-choice-topic-value-2"><field name="TEXT">after 12th options</field></block></value>
+        <next><block type="controls_openAnotherScreen" id="school-choice-open-concern-2"><value name="SCREEN"><block type="helpers_screen_names" id="school-choice-concern-name-2"><field name="SCREEN">ConcernScreen</field></block></value></block></next>
+      </block>
+    </statement>
+  </block>
+  <block type="component_event" id="school-choice-talk" x="-260" y="180">
+    <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Button" is_generic="false" instance_name="TalkButton" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">TalkButton</field>
+    <statement name="DO">
+      <block type="component_method" id="school-choice-store-talk">
+        <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="TinyDB" method_name="StoreValue" is_generic="false" instance_name="TinyDB1"></mutation>
+        <field name="COMPONENT_SELECTOR">TinyDB1</field>
+        <value name="ARG0"><block type="text" id="school-choice-topic-key-3"><field name="TEXT">topic</field></block></value>
+        <value name="ARG1"><block type="text" id="school-choice-topic-value-3"><field name="TEXT">open concern</field></block></value>
+        <next><block type="controls_openAnotherScreen" id="school-choice-open-concern-3"><value name="SCREEN"><block type="helpers_screen_names" id="school-choice-concern-name-3"><field name="SCREEN">ConcernScreen</field></block></value></block></next>
+      </block>
+    </statement>
+  </block>
+  <block type="component_event" id="school-choice-back" x="-260" y="360">
+    <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Button" is_generic="false" instance_name="BackButton" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">BackButton</field>
+    <statement name="DO"><block type="controls_openAnotherScreen" id="school-choice-open-back"><value name="SCREEN"><block type="helpers_screen_names" id="school-choice-back-name"><field name="SCREEN">StageScreen</field></block></value></block></statement>
+  </block>
+  <yacodeblocks xmlns="https://appinventor.mit.edu/ns/project/" ya-version="233" language-version="38"></yacodeblocks>
+</xml>

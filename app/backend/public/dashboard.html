@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sakhi Dashboard</title>
+    <style>
+      :root {
+        --bg: #f8f2ec;
+        --panel: #fffaf6;
+        --ink: #2b2232;
+        --muted: #7a6f77;
+        --accent: #6e597a;
+        --accent-deep: #493260;
+        --accent-soft: #e7d7ca;
+        --accent-lilac: #b8a9c9;
+        --accent-peach: #f2b99b;
+        --warn: #b85c38;
+        --line: #dcccbc;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        background:
+          radial-gradient(circle at top left, rgba(242,185,155,0.22) 0, transparent 24%),
+          radial-gradient(circle at top right, rgba(184,169,201,0.18) 0, transparent 22%),
+          linear-gradient(135deg, #f8f2ec, #efe4d7);
+        color: var(--ink);
+      }
+
+      main {
+        width: min(1180px, calc(100% - 32px));
+        margin: 28px auto 40px;
+        display: grid;
+        gap: 18px;
+      }
+
+      header, section {
+        background: rgba(255, 250, 244, 0.94);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        box-shadow: 0 18px 50px rgba(58, 37, 76, 0.08);
+      }
+
+      header {
+        padding: 24px;
+        background: linear-gradient(135deg, var(--accent-deep), var(--accent));
+        color: white;
+      }
+
+      h1, h2, h3 { margin: 0; }
+      header p { margin: 8px 0 0; line-height: 1.5; color: rgba(255,255,255,0.88); }
+
+      section { padding: 20px; }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 16px;
+      }
+
+      .label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+
+      .value {
+        margin-top: 8px;
+        font-size: 30px;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      .subtle {
+        margin-top: 8px;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr;
+        gap: 18px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 12px;
+        font-size: 15px;
+      }
+
+      th, td {
+        text-align: left;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+
+      th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+      .pill {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: rgba(184,169,201,0.22);
+        color: var(--accent-deep);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .list {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .event {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 12px 14px;
+        background: #fff;
+      }
+
+      .event time {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        margin-bottom: 6px;
+      }
+
+      .empty { color: var(--muted); }
+
+      .toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      button {
+        border: 0;
+        border-radius: 999px;
+        padding: 10px 16px;
+        background: var(--accent-deep);
+        color: white;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      @media (max-width: 900px) {
+        .grid,
+        .two-col {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .grid,
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Sakhi Dashboard</h1>
+        <p>Track operational health and real usage impact in one place. These numbers are cumulative across the lifetime of Sakhi, not just since the last restart.</p>
+        <div class="toolbar">
+          <div id="meta" class="subtle">Loading metrics...</div>
+          <button id="refresh">Refresh</button>
+        </div>
+      </header>
+
+      <section>
+        <h2>What This Should Track</h2>
+        <div class="grid" style="margin-top:14px;">
+          <div class="card"><div class="label">Reliability</div><div class="subtle">Success rate, latency, failures, rate limits, and truncated responses.</div></div>
+          <div class="card"><div class="label">Reach</div><div class="subtle">How many users and sessions Sakhi serves, which stages and languages use it, and what topics matter most.</div></div>
+          <div class="card"><div class="label">Engagement</div><div class="subtle">Repeat sessions and mode mix show whether users come back and use reflective versus practical routes.</div></div>
+          <div class="card"><div class="label">Safety & Need</div><div class="subtle">Safety-response counts and topic distribution show where support demand is surfacing.</div></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Core Metrics</h2>
+        <div id="core" class="grid" style="margin-top:14px;"></div>
+      </section>
+
+      <section class="two-col">
+        <div>
+          <h2>Impact Breakdown</h2>
+          <div id="impactTables"></div>
+        </div>
+        <div>
+          <h2>Operational Breakdown</h2>
+          <div id="opsTables"></div>
+        </div>
+      </section>
+
+      <section class="two-col">
+        <div>
+          <h2>Recent Errors</h2>
+          <div id="recentErrors" class="list"></div>
+        </div>
+        <div>
+          <h2>Recent Truncations</h2>
+          <div id="recentTruncations" class="list"></div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const core = document.getElementById("core");
+      const meta = document.getElementById("meta");
+      const impactTables = document.getElementById("impactTables");
+      const opsTables = document.getElementById("opsTables");
+      const recentErrors = document.getElementById("recentErrors");
+      const recentTruncations = document.getElementById("recentTruncations");
+
+      function card(label, value, subtle = "") {
+        return `
+          <article class="card">
+            <div class="label">${label}</div>
+            <div class="value">${value}</div>
+            ${subtle ? `<div class="subtle">${subtle}</div>` : ""}
+          </article>
+        `;
+      }
+
+      function renderBreakdown(title, data) {
+        const entries = Object.entries(data || {}).sort((a, b) => b[1] - a[1]);
+        if (!entries.length) {
+          return `<div class="card"><h3>${title}</h3><p class="subtle">No data yet.</p></div>`;
+        }
+
+        return `
+          <div class="card">
+            <h3>${title}</h3>
+            <table>
+              <thead><tr><th>Label</th><th>Count</th></tr></thead>
+              <tbody>
+                ${entries.map(([label, count]) => `<tr><td>${label}</td><td><span class="pill">${count}</span></td></tr>`).join("")}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      function renderEvents(node, list, emptyText, formatter) {
+        if (!list || !list.length) {
+          node.innerHTML = `<div class="event empty">${emptyText}</div>`;
+          return;
+        }
+
+        node.innerHTML = list.map(formatter).join("");
+      }
+
+      async function loadMetrics() {
+        meta.textContent = "Loading metrics...";
+
+        try {
+          const response = await fetch("api/dashboard-metrics");
+          const data = await response.json();
+
+          const totals = data.totals || {};
+          const breakdowns = data.breakdowns || {};
+
+          meta.textContent = `Model: ${data.model} | Lifetime totals are cumulative | Current server uptime ${data.uptimeSeconds}s`;
+
+          core.innerHTML = [
+            card("Total Requests", totals.totalRequests ?? 0, "Overall Sakhi traffic across all routes."),
+            card("Success Rate", `${totals.successRate ?? 0}%`, `${totals.successes ?? 0} successes, ${totals.failures ?? 0} failures.`),
+            card("Users", totals.totalUsers ?? 0, "Distinct anonymous users seen over Sakhi's lifetime."),
+            card("Sessions", totals.totalSessions ?? 0, `${totals.repeatSessions ?? 0} repeat sessions (${totals.repeatSessionRate ?? 0}%).`),
+            card("Safety Responses", totals.safetyResponses ?? 0, "Useful as a need and safeguarding signal."),
+            card("Avg Latency", `${totals.averageLatencyMs ?? 0} ms`, `${totals.slowResponses ?? 0} responses were slower than 4s.`),
+            card("Rate Limit Errors", totals.rateLimitErrors ?? 0, "Quota or provider pressure."),
+            card("Truncated Replies", totals.truncatedResponses ?? 0, "Should stay at or near zero."),
+            card("Avg Reply Length", totals.averageResponseChars ?? 0, "A proxy for mobile readability.")
+          ].join("");
+
+          impactTables.innerHTML = [
+            renderBreakdown("Stage Usage", breakdowns.stages),
+            renderBreakdown("Topic Usage", breakdowns.topics),
+            renderBreakdown("Language Mix", breakdowns.languages)
+          ].join("");
+
+          opsTables.innerHTML = [
+            renderBreakdown("Mode Mix", breakdowns.modes)
+          ].join("");
+
+          renderEvents(
+            recentErrors,
+            data.recentErrors,
+            "No recent errors.",
+            (item) => `
+              <article class="event">
+                <time>${item.at}</time>
+                <div><strong>${item.topic}</strong> | ${item.stage} | ${item.mode} | ${item.language}</div>
+                <div class="subtle">${item.latencyMs} ms</div>
+                <div>${item.error}</div>
+              </article>
+            `
+          );
+
+          renderEvents(
+            recentTruncations,
+            data.recentTruncations,
+            "No recent truncations.",
+            (item) => `
+              <article class="event">
+                <time>${item.at}</time>
+                <div><strong>${item.topic}</strong> | finish: ${item.finishReason}</div>
+                <div class="subtle">${item.preview}</div>
+              </article>
+            `
+          );
+        } catch (error) {
+          meta.textContent = "Failed to load metrics.";
+          core.innerHTML = `<div class="card"><div class="label">Error</div><div class="subtle">${error.message}</div></div>`;
+        }
+      }
+
+      document.getElementById("refresh").addEventListener("click", loadMetrics);
+      loadMetrics();
+      setInterval(loadMetrics, 15000);
+    </script>
+  </body>
+</html>

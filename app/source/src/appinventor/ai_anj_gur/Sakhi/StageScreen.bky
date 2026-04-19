@@ -1,0 +1,151 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="component_event" id="stage-school" x="-280" y="-330">
+    <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Button" is_generic="false" instance_name="Button1" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">Button1</field>
+    <statement name="DO">
+      <block type="component_method" id="stage-school-store">
+        <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="TinyDB" method_name="StoreValue" is_generic="false" instance_name="TinyDB1"></mutation>
+        <field name="COMPONENT_SELECTOR">TinyDB1</field>
+        <value name="ARG0">
+          <block type="text" id="stage-school-key">
+            <field name="TEXT">stage</field>
+          </block>
+        </value>
+        <value name="ARG1">
+          <block type="text" id="stage-school-value">
+            <field name="TEXT">School</field>
+          </block>
+        </value>
+        <next>
+          <block type="component_method" id="stage-school-clear-topic">
+            <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="TinyDB" method_name="StoreValue" is_generic="false" instance_name="TinyDB1"></mutation>
+            <field name="COMPONENT_SELECTOR">TinyDB1</field>
+            <value name="ARG0">
+              <block type="text" id="stage-school-topic-key">
+                <field name="TEXT">topic</field>
+              </block>
+            </value>
+            <value name="ARG1">
+              <block type="text" id="stage-school-topic-value">
+                <field name="TEXT"></field>
+              </block>
+            </value>
+            <next>
+          <block type="controls_openAnotherScreen" id="stage-school-open">
+            <value name="SCREEN">
+              <block type="helpers_screen_names" id="stage-school-screen">
+                <field name="SCREEN">SchoolChoiceScreen</field>
+              </block>
+            </value>
+          </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="component_event" id="stage-college" x="-280" y="-90">
+    <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Button" is_generic="false" instance_name="Button2" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">Button2</field>
+    <statement name="DO">
+      <block type="component_method" id="stage-college-store">
+        <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="TinyDB" method_name="StoreValue" is_generic="false" instance_name="TinyDB1"></mutation>
+        <field name="COMPONENT_SELECTOR">TinyDB1</field>
+        <value name="ARG0">
+          <block type="text" id="stage-college-key">
+            <field name="TEXT">stage</field>
+          </block>
+        </value>
+        <value name="ARG1">
+          <block type="text" id="stage-college-value">
+            <field name="TEXT">College</field>
+          </block>
+        </value>
+        <next>
+          <block type="component_method" id="stage-college-clear-topic">
+            <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="TinyDB" method_name="StoreValue" is_generic="false" instance_name="TinyDB1"></mutation>
+            <field name="COMPONENT_SELECTOR">TinyDB1</field>
+            <value name="ARG0">
+              <block type="text" id="stage-college-topic-key">
+                <field name="TEXT">topic</field>
+              </block>
+            </value>
+            <value name="ARG1">
+              <block type="text" id="stage-college-topic-value">
+                <field name="TEXT"></field>
+              </block>
+            </value>
+            <next>
+          <block type="controls_openAnotherScreen" id="stage-college-open">
+            <value name="SCREEN">
+              <block type="helpers_screen_names" id="stage-college-screen">
+                <field name="SCREEN">CollegeChoiceScreen</field>
+              </block>
+            </value>
+          </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="component_event" id="stage-work" x="-280" y="150">
+    <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Button" is_generic="false" instance_name="Button3" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">Button3</field>
+    <statement name="DO">
+      <block type="component_method" id="stage-work-store">
+        <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="TinyDB" method_name="StoreValue" is_generic="false" instance_name="TinyDB1"></mutation>
+        <field name="COMPONENT_SELECTOR">TinyDB1</field>
+        <value name="ARG0">
+          <block type="text" id="stage-work-key">
+            <field name="TEXT">stage</field>
+          </block>
+        </value>
+        <value name="ARG1">
+          <block type="text" id="stage-work-value">
+            <field name="TEXT">Early Work</field>
+          </block>
+        </value>
+        <next>
+          <block type="component_method" id="stage-work-clear-topic">
+            <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="TinyDB" method_name="StoreValue" is_generic="false" instance_name="TinyDB1"></mutation>
+            <field name="COMPONENT_SELECTOR">TinyDB1</field>
+            <value name="ARG0">
+              <block type="text" id="stage-work-topic-key">
+                <field name="TEXT">topic</field>
+              </block>
+            </value>
+            <value name="ARG1">
+              <block type="text" id="stage-work-topic-value">
+                <field name="TEXT">early work</field>
+              </block>
+            </value>
+            <next>
+          <block type="controls_openAnotherScreen" id="stage-work-open">
+            <value name="SCREEN">
+              <block type="helpers_screen_names" id="stage-work-screen">
+                <field name="SCREEN">ConcernScreen</field>
+              </block>
+            </value>
+          </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+  <block type="component_event" id="stage-back" x="-280" y="390">
+    <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Button" is_generic="false" instance_name="BackButton" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">BackButton</field>
+    <statement name="DO">
+      <block type="controls_openAnotherScreen" id="stage-back-open">
+        <value name="SCREEN">
+          <block type="helpers_screen_names" id="stage-back-screen">
+            <field name="SCREEN">Screen1</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+  <yacodeblocks xmlns="https://appinventor.mit.edu/ns/project/" ya-version="233" language-version="38"></yacodeblocks>
+</xml>

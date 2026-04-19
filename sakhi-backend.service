@@ -1,0 +1,15 @@
+[Unit]
+Description=Sakhi Backend
+After=network.target
+
+[Service]
+Type=simple
+User=anjgu
+WorkingDirectory=/home/anjgu/Sakhi-ai/app/backend
+EnvironmentFile=/home/anjgu/Sakhi-ai/app/backend/.env
+ExecStart=/usr/bin/node /home/anjgu/Sakhi-ai/app/backend/server.js
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

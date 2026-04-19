@@ -1,0 +1,16 @@
+<xml xmlns="https://developers.google.com/blockly/xml">
+  <block type="component_event" id="about-home" x="-120" y="10">
+    <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Button" is_generic="false" instance_name="BackHomeButton" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">BackHomeButton</field>
+    <statement name="DO">
+      <block type="controls_openAnotherScreen" id="about-open-home">
+        <value name="SCREEN">
+          <block type="helpers_screen_names" id="about-home-screen">
+            <field name="SCREEN">Screen1</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+  <yacodeblocks xmlns="https://appinventor.mit.edu/ns/project/" ya-version="233" language-version="38"></yacodeblocks>
+</xml>
