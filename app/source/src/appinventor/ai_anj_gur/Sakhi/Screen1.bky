@@ -3,12 +3,28 @@
     <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Button" is_generic="false" instance_name="BeginButton" event_name="Click"></mutation>
     <field name="COMPONENT_SELECTOR">BeginButton</field>
     <statement name="DO">
-      <block type="controls_openAnotherScreen" id="screen1-open-concern">
-        <value name="SCREEN">
-          <block type="helpers_screen_names" id="screen1-concern-name">
-            <field name="SCREEN">ConcernScreen</field>
+      <block type="component_method" id="screen1-store-stage">
+        <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="TinyDB" method_name="StoreValue" is_generic="false" instance_name="TinyDB1"></mutation>
+        <field name="COMPONENT_SELECTOR">TinyDB1</field>
+        <value name="ARG0"><block type="text"><field name="TEXT">stage</field></block></value>
+        <value name="ARG1"><block type="text"><field name="TEXT">student support</field></block></value>
+        <next>
+          <block type="component_method" id="screen1-store-topic">
+            <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="TinyDB" method_name="StoreValue" is_generic="false" instance_name="TinyDB1"></mutation>
+            <field name="COMPONENT_SELECTOR">TinyDB1</field>
+            <value name="ARG0"><block type="text"><field name="TEXT">topic</field></block></value>
+            <value name="ARG1"><block type="text"><field name="TEXT">safe next steps</field></block></value>
+            <next>
+              <block type="controls_openAnotherScreen" id="screen1-open-concern">
+                <value name="SCREEN">
+                  <block type="helpers_screen_names" id="screen1-concern-name">
+                    <field name="SCREEN">ConcernScreen</field>
+                  </block>
+                </value>
+              </block>
+            </next>
           </block>
-        </value>
+        </next>
       </block>
     </statement>
   </block>
