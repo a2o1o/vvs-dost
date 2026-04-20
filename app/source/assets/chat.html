@@ -14,6 +14,7 @@
       --ink: #2f211f;
       --muted: #8e5f57;
       --border: #dcc4ad;
+      --user: #ecd2bf;
       --shadow: 0 18px 32px rgba(122, 16, 35, 0.10);
     }
     * { box-sizing: border-box; }
@@ -28,31 +29,58 @@
       height: 100vh;
       display: grid;
       grid-template-rows: auto auto 1fr auto;
-      padding: 12px;
       gap: 10px;
+      padding: 12px;
     }
-    .header, .controls, .composer {
+    .header, .memory, .chat-shell, .composer {
       background: rgba(255, 248, 239, 0.94);
       border: 1px solid var(--border);
       border-radius: 22px;
-      padding: 12px 14px;
       box-shadow: var(--shadow);
     }
+    .header, .memory, .composer { padding: 12px 14px; }
     .brand-row { display: flex; align-items: center; gap: 12px; }
-    .brand-row img {
-      width: 42px; height: 42px; border-radius: 14px; object-fit: contain; background: #f8eddc;
+    .brand-row img { width: 42px; height: 42px; object-fit: contain; border-radius: 12px; background: #f8eddc; }
+    .brand-title { margin: 0; font-family: Georgia, serif; font-size: 24px; line-height: 1; color: var(--brand); }
+    .brand-subtitle { margin: 5px 0 0; font-size: 12px; line-height: 1.35; color: var(--muted); }
+    .memory-title { margin: 0 0 6px; font-size: 12px; font-weight: 700; color: var(--brand); text-transform: uppercase; letter-spacing: 0.04em; }
+    .memory-body { margin: 0; font-size: 12px; line-height: 1.45; color: var(--muted); }
+    .chat-shell { min-height: 0; overflow: hidden; }
+    .messages {
+      height: 100%;
+      overflow-y: auto;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      -webkit-overflow-scrolling: touch;
     }
-    .brand-title {
-      font-family: Georgia, serif; font-size: 24px; color: var(--brand); line-height: 1; margin: 0;
+    .empty {
+      background: rgba(255,255,255,0.55);
+      border: 1px dashed var(--border);
+      border-radius: 18px;
+      padding: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 13px;
     }
-    .brand-subtitle {
-      margin: 5px 0 0; color: var(--muted); font-size: 12px; line-height: 1.35;
+    .message { display: flex; }
+    .message.user { justify-content: flex-end; }
+    .bubble {
+      max-width: 90%;
+      border-radius: 18px;
+      padding: 11px 13px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 18px rgba(122, 16, 35, 0.08);
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.5;
+      font-size: 14px;
     }
-    .controls h3 {
-      margin: 0 0 8px; color: var(--brand); font-size: 13px; text-transform: uppercase; letter-spacing: .04em;
-    }
-    .group + .group { margin-top: 12px; }
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .message.assistant .bubble { background: var(--panel-strong); border-top-left-radius: 8px; }
+    .message.user .bubble { background: var(--user); color: var(--brand); border-top-right-radius: 8px; }
+    .composer { display: grid; gap: 10px; }
+    .style-row { display: flex; flex-wrap: wrap; gap: 8px; }
     .chip {
       border: 1px solid var(--border);
       background: #f8eddc;
@@ -68,46 +96,30 @@
       color: white;
       border-color: transparent;
     }
-    .chat-shell {
-      min-height: 0;
-      background: rgba(255, 248, 239, 0.82);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      display: grid;
-      grid-template-rows: 1fr;
-    }
-    .messages {
-      overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; -webkit-overflow-scrolling: touch;
-    }
-    .empty {
-      background: rgba(255,255,255,0.55);
-      border: 1px dashed var(--border);
-      border-radius: 18px;
-      padding: 14px;
-      color: var(--muted);
-      line-height: 1.5;
-      font-size: 13px;
-    }
-    .message { display: flex; }
-    .message.user { justify-content: flex-end; }
-    .bubble {
-      max-width: 90%; border-radius: 18px; padding: 11px 13px; border: 1px solid var(--border);
-      box-shadow: 0 8px 18px rgba(122, 16, 35, 0.08); white-space: pre-wrap; word-break: break-word;
-      line-height: 1.5; font-size: 14px;
-    }
-    .message.assistant .bubble { background: var(--panel-strong); border-top-left-radius: 8px; }
-    .message.user .bubble { background: #ecd2bf; color: var(--brand); border-top-right-radius: 8px; }
-    .composer { display: grid; gap: 10px; }
-    textarea {
-      width: 100%; min-height: 68px; max-height: 140px; resize: none; border-radius: 18px; border: 1px solid var(--border);
-      background: white; padding: 12px 14px; font: inherit; color: var(--ink); outline: none;
-    }
     .input-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: end; }
+    textarea {
+      width: 100%;
+      min-height: 78px;
+      max-height: 170px;
+      resize: none;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: white;
+      padding: 12px 14px;
+      font: inherit;
+      color: var(--ink);
+      outline: none;
+    }
     button.send {
-      border: none; background: linear-gradient(180deg, var(--brand-soft), var(--brand)); color: white; border-radius: 18px;
-      padding: 0 18px; min-height: 56px; font-weight: 700; font-size: 14px; box-shadow: 0 10px 18px rgba(122, 16, 35, 0.18);
+      border: none;
+      background: linear-gradient(180deg, var(--brand-soft), var(--brand));
+      color: white;
+      border-radius: 18px;
+      padding: 0 18px;
+      min-height: 56px;
+      font-weight: 700;
+      font-size: 14px;
+      box-shadow: 0 10px 18px rgba(122, 16, 35, 0.18);
       cursor: pointer;
     }
     .footer { display: flex; justify-content: space-between; gap: 12px; font-size: 11px; color: var(--muted); }
@@ -127,19 +139,9 @@
       </div>
     </div>
 
-    <div class="controls">
-      <div class="group">
-        <h3>1. Who is this about?</h3>
-        <div id="perspective" class="chips"></div>
-      </div>
-      <div class="group">
-        <h3>2. What kind of situation is this?</h3>
-        <div id="issue" class="chips"></div>
-      </div>
-      <div class="group">
-        <h3>3. What kind of help do you need right now?</h3>
-        <div id="style" class="chips"></div>
-      </div>
+    <div class="memory" id="memoryBox">
+      <div class="memory-title">What I remember on this device</div>
+      <p class="memory-body" id="memoryText">Nothing saved yet. As you use VVS Dost, it will remember the recent situations you bring up on this device so the next conversation has context.</p>
     </div>
 
     <div class="chat-shell">
@@ -147,72 +149,82 @@
     </div>
 
     <div class="composer">
+      <div class="style-row" id="styleRow"></div>
       <div class="input-row">
-        <textarea id="prompt" placeholder="Add one or two lines if you want. Example: It happened in class today and now I feel embarrassed."></textarea>
+        <textarea id="prompt" placeholder="Tell me what happened. Example: I felt left out in class today and now I do not know how to act tomorrow."></textarea>
         <button id="send" class="send">Get help</button>
       </div>
       <div class="footer">
-        <div id="status" class="status">No self-learning from live chats. This hackathon version uses a fixed support rubric and reviewed rules.</div>
+        <div id="status" class="status">This version follows fixed rules, keeps lightweight device memory, and does not train itself from live student chats.</div>
         <div id="reset" class="linklike">Start fresh</div>
       </div>
     </div>
   </div>
 
   <script>
-    const API_KEY = 'AIzaSyAp1yYNi6YZkW3PacdqEicef2ElgcT4v3k';
+    const API_KEY = 'AIzaSyBteMwV1hrztHnEfdp3fwgfKMXotgh7fN8';
     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+    const MEMORY_KEY = 'vvs_dost_memory_v1';
+    const STYLE_KEY = 'vvs_dost_style_v1';
+
     const messagesEl = document.getElementById('messages');
     const promptEl = document.getElementById('prompt');
     const sendEl = document.getElementById('send');
     const statusEl = document.getElementById('status');
     const resetEl = document.getElementById('reset');
+    const styleRow = document.getElementById('styleRow');
+    const memoryText = document.getElementById('memoryText');
 
-    const OPTIONS = {
-      perspective: [
-        'For me',
-        'For a friend'
-      ],
-      issue: [
-        'Stress / overwhelm',
-        'Friendship issue',
-        'Feeling left out',
-        'Nervousness / fear',
-        "Confused / can't name it",
-        'Embarrassment / shame',
-        'Anger / frustration',
-        'Loneliness',
-        'Worried about a friend'
-      ],
-      style: [
-        'I need space',
-        'I need words',
-        'I need a next step',
-        'I need help talking to someone'
-      ]
-    };
-
-    const state = {
-      perspective: 'For me',
-      issue: 'Stress / overwhelm',
-      style: 'I need words'
-    };
+    const STYLES = [
+      'I need space',
+      'I need a next step',
+      'I need help talking to someone'
+    ];
 
     const SAFETY_RE = /(suicide|kill myself|hurt myself|self harm|self-harm|want to disappear|don't want to live|die|end my life|abuse|being hurt|unsafe at home|unsafe at school|hit me|hurting me|hurt someone|kill someone|violence|scared to go home|scared to stay alone)/i;
-    let messages = [];
 
-    function renderChips(targetId, key) {
-      const root = document.getElementById(targetId);
-      root.innerHTML = OPTIONS[key].map((option) => `<button class="chip ${state[key] === option ? 'active' : ''}" data-key="${key}" data-value="${escapeAttr(option)}">${escapeHtml(option)}</button>`).join('');
+    let selectedStyle = localStorage.getItem(STYLE_KEY) || 'I need a next step';
+    let messages = [];
+    let memory = loadMemory();
+
+    function loadMemory() {
+      try {
+        const raw = localStorage.getItem(MEMORY_KEY);
+        const parsed = raw ? JSON.parse(raw) : null;
+        if (parsed && Array.isArray(parsed.notes)) return parsed;
+      } catch (e) {}
+      return { notes: [] };
     }
 
-    function renderChipGroups() {
-      renderChips('perspective', 'perspective');
-      renderChips('issue', 'issue');
-      renderChips('style', 'style');
+    function saveMemory() {
+      localStorage.setItem(MEMORY_KEY, JSON.stringify(memory));
+    }
+
+    function renderMemory() {
+      if (!memory.notes.length) {
+        memoryText.textContent = 'Nothing saved yet. As you use VVS Dost, it will remember the recent situations you bring up on this device so the next conversation has context.';
+        return;
+      }
+      const lines = memory.notes.slice(-3).map((note) => `• ${note}`);
+      memoryText.textContent = lines.join(' ');
+    }
+
+    function rememberSituation(userText) {
+      const clean = String(userText || '').replace(/\s+/g, ' ').trim();
+      if (!clean) return;
+      memory.notes.push(clean.length > 140 ? clean.slice(0, 140) + '...' : clean);
+      memory.notes = memory.notes.slice(-6);
+      saveMemory();
+      renderMemory();
+    }
+
+    function renderStyles() {
+      styleRow.innerHTML = STYLES.map((style) => `<button class="chip ${selectedStyle === style ? 'active' : ''}" data-style="${escapeAttr(style)}">${escapeHtml(style)}</button>`).join('');
       document.querySelectorAll('.chip').forEach((chip) => {
         chip.addEventListener('click', () => {
-          state[chip.dataset.key] = chip.dataset.value;
-          renderChipGroups();
+          selectedStyle = chip.dataset.style;
+          localStorage.setItem(STYLE_KEY, selectedStyle);
+          renderStyles();
         });
       });
     }
@@ -221,14 +233,14 @@
       if (!messages.length) {
         messagesEl.innerHTML = `
           <div class="empty">
-            Pick the situation above, add a little context if you want, and VVS Dost will respond in a fixed format:
+            Tell VVS Dost what happened. It will infer the situation from your message and reply in a short structure:
             <br><br>
-            1. What this might be
-            <br>2. Try this now
-            <br>3. Next step
-            <br>4. Say it for me
+            What this might be
+            <br>Try this now
+            <br>Next step
+            <br>Say it for me
             <br><br>
-            If anything sounds unsafe or serious, VVS Dost switches to emergency support mode and tells you to go to a trusted adult now.
+            If something sounds unsafe or serious, it switches into emergency support mode.
           </div>`;
         return;
       }
@@ -254,16 +266,11 @@
 
     function emergencyReply() {
       return [
-        "This sounds serious, and you should not handle it alone.",
-        "Go to a trusted adult right now: a parent, teacher, school counsellor, house tutor, or another adult nearby.",
-        "If you feel in immediate danger, call local emergency services or get to an adult near you now.",
-        "Say it for me: I need help right now and I should not be alone with this."
+        'This sounds serious, and you should not handle it alone.',
+        'Go to a trusted adult right now: a parent, teacher, school counsellor, or another adult nearby.',
+        'If you feel in immediate danger, call local emergency services or get to an adult near you now.',
+        'Say it for me: I need help right now and I should not be alone with this.'
       ].join('\n\n');
-    }
-
-    function buildVisibleUserText(extra) {
-      const detail = extra ? `\nDetails: ${extra}` : '';
-      return `${state.perspective}\nIssue: ${state.issue}\nHelp needed: ${state.style}${detail}`;
     }
 
     function systemInstruction() {
@@ -281,29 +288,13 @@ Fixed role rubric:
 - help them choose a safe next step
 - help them communicate with a trusted human
 
-Intent buckets:
-- stress or overwhelm
-- friendship issue
-- feeling left out
-- nervousness or fear
-- confusion / cannot name feeling
-- worry about a friend
-- conflict or argument
-- embarrassment or shame
-- anger or frustration
-- loneliness
-
-Emotion recognition rubric:
-Infer possible feelings but do not claim certainty. Use phrases like "You may be feeling" or "It sounds a bit like".
+Infer the likely situation from the user's message. Common buckets include stress or overwhelm, friendship issues, feeling left out, nervousness or fear, confusion, embarrassment or shame, anger or frustration, loneliness, and worry about a friend.
+Infer possible feelings but never claim certainty. Use phrases like "You may be feeling" or "It sounds a bit like".
 Never diagnose anxiety, depression, trauma, or any condition.
-
-Intensity rubric:
-Quietly estimate low, medium, or high intensity and adjust tone.
-High intensity means panic, helplessness, unsafe situations, or harm.
 
 Safety rule:
 If the user mentions self-harm, suicide, wanting to disappear, abuse, unsafe home or school, wanting to hurt someone, or immediate danger, switch immediately into emergency support mode.
-Emergency support mode must be short, calm, serious, and direct them to a trusted adult now. Do not give long breathing or journaling advice first.
+Emergency support mode must be short, calm, serious, and direct them to a trusted adult now.
 
 Normal response structure:
 1. Acknowledge.
@@ -313,67 +304,61 @@ Normal response structure:
 5. Give one short "say it for me" sentence.
 6. If appropriate, suggest a trusted human bridge.
 
-Output rubric:
 Keep the answer short and use exactly these headers for normal situations:
 What this might be
 Try this now
 Next step
 Say it for me
 
-If the perspective is "For a friend" or the issue is about a friend, use these headers instead:
-What this might mean
-What you can say
-What not to do
-When to tell an adult
-
-Advice rubric:
 Advice must be small, specific, school-safe, and realistic.
 Good actions: ask for a minute, take water, move to a quieter place if allowed, write 5 words, message a trusted friend, ask a teacher for 5 minutes, talk to a school counsellor.
 Bad actions: confront everyone immediately, cut people off forever, legal or medical claims, manipulative advice.
 
-Communication rubric:
-When useful, the "Say it for me" line should sound like something a student could really say to a friend, teacher, or counsellor.
-
-Design memory rule:
-No self-training from live chats. No inventing new rules. Stay within the fixed rubric.`;
+Use this saved context only as soft memory from previous visits on the same device, not as certainty.`;
     }
 
-    function buildRequestBody(extra) {
+    function buildRequestBody(userText) {
+      const memoryContext = memory.notes.length
+        ? `Recent device memory from earlier visits:\n- ${memory.notes.join('\n- ')}`
+        : 'Recent device memory from earlier visits: none.';
       const userContext = [
-        `Perspective: ${state.perspective}`,
-        `Issue bucket: ${state.issue}`,
-        `Requested support style: ${state.style}`,
-        `User details: ${extra || 'No extra details provided.'}`
-      ].join('\n');
+        `Preferred support style: ${selectedStyle}`,
+        memoryContext,
+        `Current student message: ${userText}`
+      ].join('\n\n');
 
       return {
         systemInstruction: { parts: [{ text: systemInstruction() }] },
         contents: [{ role: 'user', parts: [{ text: userContext }] }],
-        generationConfig: { temperature: 0.25, maxOutputTokens: 280 }
+        generationConfig: { temperature: 0.2, maxOutputTokens: 260 }
       };
     }
 
     async function handleSubmit() {
-      const extra = promptEl.value.trim();
-      const visibleUserText = buildVisibleUserText(extra);
-      messages.push({ role: 'user', text: visibleUserText });
+      const userText = promptEl.value.trim();
+      if (!userText) {
+        statusEl.textContent = 'Type what happened first.';
+        return;
+      }
+      messages.push({ role: 'user', text: userText });
       renderMessages();
       promptEl.value = '';
+      rememberSituation(userText);
 
-      if (SAFETY_RE.test(extra)) {
+      if (SAFETY_RE.test(userText)) {
         messages.push({ role: 'assistant', text: emergencyReply() });
         statusEl.textContent = 'Emergency support mode triggered.';
         renderMessages();
         return;
       }
 
-      statusEl.textContent = 'VVS Dost is generating a rubric-based reply...';
+      statusEl.textContent = 'VVS Dost is replying...';
       sendEl.disabled = true;
       try {
         const response = await fetch(API_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(buildRequestBody(extra))
+          body: JSON.stringify(buildRequestBody(userText))
         });
         const data = await response.json();
         const reply = data?.candidates?.[0]?.content?.parts?.map((p) => p.text || '').join('\n').trim();
@@ -383,13 +368,23 @@ No self-training from live chats. No inventing new rules. Stay within the fixed 
         messages.push({ role: 'assistant', text: reply });
         statusEl.textContent = 'VVS Dost replied.';
       } catch (error) {
-        messages.push({ role: 'assistant', text: 'I could not respond just now. Try again, or speak to a trusted adult if this feels serious.' });
+        messages.push({ role: 'assistant', text: 'I could not respond just now. Please try again in a minute, or speak to a trusted adult if this feels serious.' });
         statusEl.textContent = `Request failed: ${error.message}`;
       } finally {
         sendEl.disabled = false;
         renderMessages();
       }
     }
+
+    resetEl.addEventListener('click', () => {
+      messages = [];
+      memory = { notes: [] };
+      promptEl.value = '';
+      localStorage.removeItem(MEMORY_KEY);
+      statusEl.textContent = 'Fresh start ready.';
+      renderMemory();
+      renderMessages();
+    });
 
     sendEl.addEventListener('click', handleSubmit);
     promptEl.addEventListener('keydown', (event) => {
@@ -398,16 +393,10 @@ No self-training from live chats. No inventing new rules. Stay within the fixed 
         handleSubmit();
       }
     });
-    resetEl.addEventListener('click', () => {
-      messages = [];
-      promptEl.value = '';
-      statusEl.textContent = 'Fresh start ready.';
-      renderMessages();
-    });
 
-    renderChipGroups();
+    renderStyles();
+    renderMemory();
     renderMessages();
   </script>
 </body>
 </html>
-

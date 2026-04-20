@@ -1,34 +1,38 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
-  <block type="component_event" id="screen1-begin" x="-120" y="10">
-    <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Button" is_generic="false" instance_name="BeginButton" event_name="Click"></mutation>
-    <field name="COMPONENT_SELECTOR">BeginButton</field>
+  <block type="component_event" id="screen1-init" x="-120" y="-110">
+    <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Form" is_generic="false" instance_name="Screen1" event_name="Initialize"></mutation>
+    <field name="COMPONENT_SELECTOR">Screen1</field>
     <statement name="DO">
-      <block type="component_method" id="screen1-store-stage">
+      <block type="component_method" id="screen1-init-store-stage">
         <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="TinyDB" method_name="StoreValue" is_generic="false" instance_name="TinyDB1"></mutation>
         <field name="COMPONENT_SELECTOR">TinyDB1</field>
         <value name="ARG0"><block type="text"><field name="TEXT">stage</field></block></value>
-        <value name="ARG1"><block type="text"><field name="TEXT">student support</field></block></value>
+        <value name="ARG1"><block type="text"><field name="TEXT"></field></block></value>
         <next>
-          <block type="component_method" id="screen1-store-topic">
+          <block type="component_method" id="screen1-init-store-topic">
             <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="TinyDB" method_name="StoreValue" is_generic="false" instance_name="TinyDB1"></mutation>
             <field name="COMPONENT_SELECTOR">TinyDB1</field>
             <value name="ARG0"><block type="text"><field name="TEXT">topic</field></block></value>
-            <value name="ARG1"><block type="text"><field name="TEXT">safe next steps</field></block></value>
-            <next>
-              <block type="controls_openAnotherScreen" id="screen1-open-concern">
-                <value name="SCREEN">
-                  <block type="helpers_screen_names" id="screen1-concern-name">
-                    <field name="SCREEN">ConcernScreen</field>
-                  </block>
-                </value>
-              </block>
-            </next>
+            <value name="ARG1"><block type="text"><field name="TEXT"></field></block></value>
           </block>
         </next>
       </block>
     </statement>
   </block>
-  <block type="component_event" id="screen1-about" x="-120" y="110">
+  <block type="component_event" id="screen1-begin" x="-120" y="40">
+    <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Button" is_generic="false" instance_name="BeginButton" event_name="Click"></mutation>
+    <field name="COMPONENT_SELECTOR">BeginButton</field>
+    <statement name="DO">
+      <block type="controls_openAnotherScreen" id="screen1-open-concern">
+        <value name="SCREEN">
+          <block type="helpers_screen_names" id="screen1-concern-name">
+            <field name="SCREEN">ConcernScreen</field>
+          </block>
+        </value>
+      </block>
+    </statement>
+  </block>
+  <block type="component_event" id="screen1-about" x="-120" y="150">
     <mutation xmlns="http://www.w3.org/1999/xhtml" component_type="Button" is_generic="false" instance_name="AboutButton" event_name="Click"></mutation>
     <field name="COMPONENT_SELECTOR">AboutButton</field>
     <statement name="DO">
