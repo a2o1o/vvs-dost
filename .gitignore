@@ -6,3 +6,5 @@ app/vvs-backend/.env
 .DS_Store
 Thumbs.db
 data/
+
+app/vvs-backend/*.log
