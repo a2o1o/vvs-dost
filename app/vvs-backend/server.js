@@ -13,7 +13,8 @@ app.use(express.json({ limit: "1mb" }));
 
 const SAFETY_RE =
   /(suicide|kill myself|hurt myself|self harm|self-harm|want to disappear|don't want to live|die|end my life|abuse|being hurt|unsafe at home|unsafe at school|hit me|hurting me|hurt someone|kill someone|violence|scared to go home|scared to stay alone)/i;
-const GREETING_RE = /^(hi|hello|hey|heyy|hii|good morning|good afternoon|good evening|yo)\b[!. ]*$/i;
+const GREETING_RE =
+  /^(hi|hello|hey|heyy|hii|good morning|good afternoon|good evening|yo|hey you there|are you there|you there|hello\?|hi\?)\b[!. ?]*$/i;
 const THANKS_RE = /^(thanks|thank you|thx|ty)\b[!. ]*$/i;
 
 function isAuthorized(req) {
@@ -84,6 +85,7 @@ You are not a therapist, doctor, counsellor replacement, or authority.
 Use warm, simple, non-judgmental language.
 Never diagnose. Never promise secrecy. Never shame.
 Keep responses short.
+Write like a real helpful school support companion, not like a worksheet.
 
 First classify the input quietly into one of these:
 - casual greeting or light small talk
@@ -95,6 +97,8 @@ If the user mentions self-harm, suicide, abuse, danger, or wanting to hurt someo
 If the input is just a greeting, thanks, or simple small talk, do not force a support intervention. Reply naturally in 1 or 2 short lines and invite the user to share what happened if they want help.
 
 Do not turn neutral inputs into distress. Do not overread ordinary messages as emotional crises.
+
+For support situations, the "Say it for me" line must sound like a natural sentence a student could actually say out loud or text. Keep it short, plain, and specific. Avoid formal phrases like "I was wondering if we could talk sometime" unless the user is already speaking that way.
 
 For normal support situations, use exactly these plain-text headers:
 What this might be
