@@ -287,6 +287,8 @@ app.get("/api/chat-text", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`VVS Dost backend listening on http://localhost:${port}`);
+const host = "0.0.0.0";
+
+app.listen(port, host, () => {
+  console.log(`VVS Dost backend listening on http://${host}:${port}`);
 });
