@@ -18,7 +18,7 @@ function isAuthorized(req) {
   if (!appToken) {
     return true;
   }
-  return req.get("x-app-token") === appToken;
+  return req.get("x-app-token") === appToken || String(req.query?.appToken || "").trim() === appToken;
 }
 
 function normalizeMemory(memory) {
