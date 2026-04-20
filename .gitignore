@@ -1,6 +1,8 @@
 node_modules/
 app/backend/node_modules/
 app/backend/.env
+app/vvs-backend/node_modules/
+app/vvs-backend/.env
 .DS_Store
 Thumbs.db
 data/

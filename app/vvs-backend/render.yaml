@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: vvs-dost-backend
+    runtime: node
+    rootDir: app/vvs-backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: APP_TOKEN
+        sync: false
