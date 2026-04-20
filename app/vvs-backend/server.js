@@ -5,7 +5,13 @@ import express from "express";
 const app = express();
 const port = Number(process.env.PORT || 3000);
 const appToken = process.env.APP_TOKEN || "";
-const geminiApiKey = process.env.GEMINI_API_KEY || "";
+const geminiApiKeys = [
+  process.env.GEMINI_API_KEY,
+  process.env.GEMINI_API_KEY_2,
+  process.env.GEMINI_API_KEY_3
+]
+  .map((value) => String(value || "").trim())
+  .filter(Boolean);
 const sessionMemory = new Map();
 
 app.use(cors());
@@ -140,47 +146,49 @@ function buildRequestBody(message, memory) {
 }
 
 async function callGemini(message, memory) {
-  if (!geminiApiKey) {
+  if (!geminiApiKeys.length) {
     throw new Error("GEMINI_API_KEY is not configured on the server.");
   }
 
   const models = ["gemini-2.5-flash-lite", "gemini-2.5-flash", "gemini-flash-latest", "gemini-2.0-flash"];
   let lastError = "No usable reply returned.";
 
-  for (const model of models) {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 20000);
+  for (const apiKey of geminiApiKeys) {
+    for (const model of models) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 20000);
 
-    try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-goog-api-key": geminiApiKey
-          },
-          body: JSON.stringify(buildRequestBody(message, memory)),
-          signal: controller.signal
+      try {
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "x-goog-api-key": apiKey
+            },
+            body: JSON.stringify(buildRequestBody(message, memory)),
+            signal: controller.signal
+          }
+        );
+        const data = await response.json();
+        clearTimeout(timeout);
+
+        const reply = (
+          data?.candidates?.[0]?.content?.parts?.map((part) => part.text || "").join("\n").trim() ||
+          data?.candidates?.[0]?.output_text ||
+          ""
+        ).trim();
+
+        if (response.ok && reply) {
+          return cleanReply(reply);
         }
-      );
-      const data = await response.json();
-      clearTimeout(timeout);
 
-      const reply = (
-        data?.candidates?.[0]?.content?.parts?.map((part) => part.text || "").join("\n").trim() ||
-        data?.candidates?.[0]?.output_text ||
-        ""
-      ).trim();
-
-      if (response.ok && reply) {
-        return cleanReply(reply);
+        lastError = data?.error?.message || `Request failed (${response.status})`;
+      } catch (error) {
+        clearTimeout(timeout);
+        lastError = error?.message || "Request failed.";
       }
-
-      lastError = data?.error?.message || `Request failed (${response.status})`;
-    } catch (error) {
-      clearTimeout(timeout);
-      lastError = error?.message || "Request failed.";
     }
   }
 
@@ -191,7 +199,8 @@ app.get("/health", (_req, res) => {
   res.json({
     ok: true,
     service: "vvs-dost-backend",
-    geminiConfigured: Boolean(geminiApiKey),
+    geminiConfigured: Boolean(geminiApiKeys.length),
+    geminiKeyCount: geminiApiKeys.length,
     tokenProtected: Boolean(appToken)
   });
 });
