@@ -13,6 +13,8 @@ app.use(express.json({ limit: "1mb" }));
 
 const SAFETY_RE =
   /(suicide|kill myself|hurt myself|self harm|self-harm|want to disappear|don't want to live|die|end my life|abuse|being hurt|unsafe at home|unsafe at school|hit me|hurting me|hurt someone|kill someone|violence|scared to go home|scared to stay alone)/i;
+const GREETING_RE = /^(hi|hello|hey|heyy|hii|good morning|good afternoon|good evening|yo)\b[!. ]*$/i;
+const THANKS_RE = /^(thanks|thank you|thx|ty)\b[!. ]*$/i;
 
 function isAuthorized(req) {
   if (!appToken) {
@@ -67,6 +69,14 @@ function emergencyReply() {
   ].join("\n\n");
 }
 
+function greetingReply() {
+  return "Hi. I'm VVS Dost. Tell me what happened, and I'll help you think through the next step.";
+}
+
+function thanksReply() {
+  return "You're welcome. If you want, tell me what happened and I'll help you think it through.";
+}
+
 function buildSystemInstruction() {
   return `You are VVS Dost, a calm first-step support guide for school students.
 Help the user identify what they may be feeling, take one small calming action, choose one safe next step, and express themselves clearly to a trusted human.
@@ -75,13 +85,30 @@ Use warm, simple, non-judgmental language.
 Never diagnose. Never promise secrecy. Never shame.
 Keep responses short.
 
+First classify the input quietly into one of these:
+- casual greeting or light small talk
+- normal support request
+- serious safety concern
+
 If the user mentions self-harm, suicide, abuse, danger, or wanting to hurt someone, switch into emergency support mode and tell them to contact a trusted adult now.
 
-For normal situations, use exactly these headers:
+If the input is just a greeting, thanks, or simple small talk, do not force a support intervention. Reply naturally in 1 or 2 short lines and invite the user to share what happened if they want help.
+
+Do not turn neutral inputs into distress. Do not overread ordinary messages as emotional crises.
+
+For normal support situations, use exactly these plain-text headers:
 What this might be
 Try this now
 Next step
 Say it for me`;
+}
+
+function cleanReply(text) {
+  return String(text || "")
+    .replace(/^#{1,6}\s*/gm, "")
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/\r/g, "")
+    .trim();
 }
 
 function buildRequestBody(message, memory) {
@@ -143,7 +170,7 @@ async function callGemini(message, memory) {
       ).trim();
 
       if (response.ok && reply) {
-        return reply;
+        return cleanReply(reply);
       }
 
       lastError = data?.error?.message || `Request failed (${response.status})`;
@@ -184,6 +211,20 @@ app.post("/api/chat", async (req, res) => {
     });
   }
 
+  if (GREETING_RE.test(message)) {
+    return res.json({
+      reply: greetingReply(),
+      mode: "greeting"
+    });
+  }
+
+  if (THANKS_RE.test(message)) {
+    return res.json({
+      reply: thanksReply(),
+      mode: "casual"
+    });
+  }
+
   try {
     const reply = await callGemini(message, memory);
     return res.json({
@@ -217,6 +258,14 @@ app.get("/api/chat-text", async (req, res) => {
 
   if (SAFETY_RE.test(message)) {
     return res.type("text/plain").send(emergencyReply());
+  }
+
+  if (GREETING_RE.test(message)) {
+    return res.type("text/plain").send(greetingReply());
+  }
+
+  if (THANKS_RE.test(message)) {
+    return res.type("text/plain").send(thanksReply());
   }
 
   const useMemory = memoryMode !== "off";
