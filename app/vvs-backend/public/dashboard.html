@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VVS Dost Dashboard</title>
+    <style>
+      :root {
+        --bg: #f7ead9;
+        --panel: #fff8f0;
+        --panel-strong: #f9efe3;
+        --ink: #2f211e;
+        --muted: #7f6b63;
+        --brand: #7a1023;
+        --brand-strong: #b21e35;
+        --line: #e0c3a8;
+        --shadow: 0 18px 48px rgba(122, 16, 35, 0.10);
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(178,30,53,0.08) 0, transparent 26%),
+          radial-gradient(circle at bottom right, rgba(224,195,168,0.34) 0, transparent 24%),
+          linear-gradient(180deg, #fbf3e8 0%, #f6e7d3 100%);
+      }
+
+      main {
+        width: min(1180px, calc(100% - 32px));
+        margin: 28px auto 40px;
+        display: grid;
+        gap: 18px;
+      }
+
+      header, section {
+        background: rgba(255, 248, 240, 0.96);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        box-shadow: var(--shadow);
+      }
+
+      header {
+        padding: 24px;
+        background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+        color: #fff;
+      }
+
+      h1, h2, h3 { margin: 0; }
+      header p {
+        margin: 10px 0 0;
+        line-height: 1.5;
+        color: rgba(255,255,255,0.90);
+      }
+
+      section { padding: 20px; }
+
+      .toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .subtle {
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 16px;
+      }
+
+      .label {
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .value {
+        margin-top: 8px;
+        font-size: 30px;
+        font-weight: 700;
+        color: var(--brand);
+      }
+
+      .two-col {
+        display: grid;
+        grid-template-columns: 1.25fr 1fr;
+        gap: 18px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 12px;
+        font-size: 15px;
+      }
+
+      th, td {
+        text-align: left;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+
+      th {
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .pill {
+        display: inline-block;
+        min-width: 36px;
+        text-align: center;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: rgba(178, 30, 53, 0.10);
+        color: var(--brand);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .list {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .event {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 12px 14px;
+        background: var(--panel);
+      }
+
+      .event time {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        margin-bottom: 6px;
+      }
+
+      button {
+        border: 0;
+        border-radius: 999px;
+        padding: 10px 16px;
+        background: #fff;
+        color: var(--brand);
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .empty { color: var(--muted); }
+
+      @media (max-width: 900px) {
+        .grid, .two-col {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .grid, .two-col {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>VVS Dost Dashboard</h1>
+        <p>Live operational view of VVS Dost usage, reliability, student demand patterns, and memory behavior. This version is lightweight and updates directly from the current backend.</p>
+        <div class="toolbar">
+          <div id="meta" class="subtle">Loading metrics...</div>
+          <button id="refresh">Refresh</button>
+        </div>
+      </header>
+
+      <section>
+        <h2>What This Tracks</h2>
+        <div class="grid" style="margin-top:14px;">
+          <div class="card"><div class="label">Reach</div><div class="subtle">How many requests, students, and repeat users VVS Dost is serving.</div></div>
+          <div class="card"><div class="label">Reliability</div><div class="subtle">Success rate, failures, average latency, and current Gemini key coverage.</div></div>
+          <div class="card"><div class="label">Need</div><div class="subtle">Which issue buckets appear most often and how often safety responses are triggered.</div></div>
+          <div class="card"><div class="label">Memory</div><div class="subtle">How often memory is enabled and how many times students start fresh.</div></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Core Metrics</h2>
+        <div id="core" class="grid" style="margin-top:14px;"></div>
+      </section>
+
+      <section class="two-col">
+        <div>
+          <h2>Issue Buckets</h2>
+          <div id="bucketTable"></div>
+        </div>
+        <div>
+          <h2>Recent Activity</h2>
+          <div id="recentActivity" class="list"></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Recent Errors</h2>
+        <div id="recentErrors" class="list"></div>
+      </section>
+    </main>
+
+    <script>
+      const core = document.getElementById("core");
+      const meta = document.getElementById("meta");
+      const bucketTable = document.getElementById("bucketTable");
+      const recentErrors = document.getElementById("recentErrors");
+      const recentActivity = document.getElementById("recentActivity");
+
+      function card(label, value, subtle = "") {
+        return `
+          <article class="card">
+            <div class="label">${label}</div>
+            <div class="value">${value}</div>
+            ${subtle ? `<div class="subtle">${subtle}</div>` : ""}
+          </article>
+        `;
+      }
+
+      function renderBreakdown(data) {
+        const entries = Object.entries(data || {}).sort((a, b) => b[1] - a[1]);
+        if (!entries.length) {
+          return `<div class="card"><div class="subtle">No issue data yet.</div></div>`;
+        }
+
+        return `
+          <div class="card">
+            <table>
+              <thead><tr><th>Issue bucket</th><th>Count</th></tr></thead>
+              <tbody>
+                ${entries.map(([label, count]) => `<tr><td>${label}</td><td><span class="pill">${count}</span></td></tr>`).join("")}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      function renderEvents(node, list, emptyText, formatter) {
+        if (!list || !list.length) {
+          node.innerHTML = `<div class="event empty">${emptyText}</div>`;
+          return;
+        }
+        node.innerHTML = list.map(formatter).join("");
+      }
+
+      async function loadMetrics() {
+        meta.textContent = "Loading metrics...";
+        try {
+          const response = await fetch("/api/dashboard-metrics");
+          const data = await response.json();
+          const totals = data.totals || {};
+          const breakdowns = data.breakdowns || {};
+
+          meta.textContent = `Keys live: ${totals.geminiKeyCount || 0} | Backend uptime: ${data.uptimeSeconds || 0}s`;
+
+          core.innerHTML = [
+            card("Total Requests", totals.totalRequests ?? 0, "All student requests handled by this backend instance."),
+            card("Success Rate", `${totals.successRate ?? 0}%`, `${totals.successes ?? 0} successful, ${totals.failures ?? 0} failed.`),
+            card("Students Seen", totals.totalUsers ?? 0, `${totals.repeatUsers ?? 0} have returned more than once.`),
+            card("Safety Responses", totals.safetyResponses ?? 0, "Important escalation signal."),
+            card("Avg Latency", `${totals.averageLatencyMs ?? 0} ms`, "Measured across all current requests."),
+            card("Avg Reply Length", totals.averageResponseChars ?? 0, "Useful for checking mobile readability."),
+            card("Memory On", totals.memoryEnabledRequests ?? 0, "Requests sent with memory enabled."),
+            card("Start Fresh", totals.memoryResets ?? 0, "How many times memory was cleared."),
+            card("Greetings", totals.greetingResponses ?? 0, "Simple conversational openings."),
+            card("Thanks", totals.thanksResponses ?? 0, "Lightweight follow-up exchanges."),
+            card("Support Replies", totals.normalResponses ?? 0, "Full structured help responses."),
+            card("Gemini Keys", totals.geminiKeyCount ?? 0, "Project-level fallback currently available.")
+          ].join("");
+
+          bucketTable.innerHTML = renderBreakdown(breakdowns.issueBuckets);
+
+          renderEvents(
+            recentActivity,
+            data.recentActivity,
+            "No recent activity yet.",
+            (item) => `
+              <article class="event">
+                <time>${item.at}</time>
+                <div><strong>${item.bucket}</strong> | ${item.mode}</div>
+                <div class="subtle">${item.preview}</div>
+              </article>
+            `
+          );
+
+          renderEvents(
+            recentErrors,
+            data.recentErrors,
+            "No recent errors.",
+            (item) => `
+              <article class="event">
+                <time>${item.at}</time>
+                <div><strong>${item.bucket}</strong></div>
+                <div class="subtle">${item.latencyMs} ms</div>
+                <div>${item.error}</div>
+              </article>
+            `
+          );
+        } catch (error) {
+          meta.textContent = "Failed to load metrics.";
+          core.innerHTML = `<div class="card"><div class="label">Error</div><div class="subtle">${error.message}</div></div>`;
+        }
+      }
+
+      document.getElementById("refresh").addEventListener("click", loadMetrics);
+      loadMetrics();
+      setInterval(loadMetrics, 15000);
+    </script>
+  </body>
+</html>
