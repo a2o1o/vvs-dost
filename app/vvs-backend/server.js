@@ -266,6 +266,9 @@ app.get("/api/chat-text", async (req, res) => {
   }
 
   if (!message) {
+    if (resetMemory === "1") {
+      return res.type("text/plain").send("Memory cleared.");
+    }
     return res.status(400).type("text/plain").send("message is required.");
   }
 
